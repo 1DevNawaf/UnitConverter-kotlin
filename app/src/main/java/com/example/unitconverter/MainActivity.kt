@@ -10,13 +10,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Create
-import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -27,6 +25,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -65,14 +64,14 @@ fun UnitConverter() {
     var outputUnit by remember { mutableStateOf("Meters") }
     var iExpanded by remember { mutableStateOf(false) }
     var oExpanded by remember { mutableStateOf(false) }
-    val iConversionFactor = remember { mutableStateOf(1.0) }
-    val oConversionFactor = remember { mutableStateOf(1.0) }
+    val iConversionFactor = remember { mutableDoubleStateOf(1.0) }
+    val oConversionFactor = remember { mutableDoubleStateOf(1.0) }
 
     fun conversionUnit() {
         // ?: this is elvis operator, means if it's null take the after colon value
         val inputValueDouble = inputValue.toDoubleOrNull() ?: 0.0
         val result =
-            (inputValueDouble * iConversionFactor.value * 100.0 / oConversionFactor.value).roundToInt() / 100
+            (inputValueDouble * iConversionFactor.doubleValue * 100.0 / oConversionFactor.doubleValue).roundToInt() / 100
         outputValue = result.toString()
     }
 
@@ -83,7 +82,11 @@ fun UnitConverter() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Icon(Icons.Default.Create, contentDescription = "Create",Modifier.size(width = 64.dp, height = 64.dp))
+        Icon(
+            Icons.Default.Create,
+            contentDescription = "Create",
+            Modifier.size(width = 64.dp, height = 64.dp)
+        )
         Spacer(modifier = Modifier.height(32.dp))
         Text("Unit converter", style = MaterialTheme.typography.headlineLarge)
         Spacer(modifier = Modifier.height(16.dp))
@@ -112,7 +115,7 @@ fun UnitConverter() {
                         onClick = {
                             iExpanded = !iExpanded
                             inputUnit = "Centimeters"
-                            iConversionFactor.value = 0.01
+                            iConversionFactor.doubleValue = 0.01
                             conversionUnit()
                         }
                     )
@@ -121,7 +124,7 @@ fun UnitConverter() {
                         onClick = {
                             iExpanded = !iExpanded
                             inputUnit = "Meters"
-                            iConversionFactor.value = 1.00
+                            iConversionFactor.doubleValue = 1.00
                             conversionUnit()
                         }
                     )
@@ -130,7 +133,7 @@ fun UnitConverter() {
                         onClick = {
                             iExpanded = !iExpanded
                             inputUnit = "Feet"
-                            iConversionFactor.value = 0.3048
+                            iConversionFactor.doubleValue = 0.3048
                             conversionUnit()
                         }
                     )
@@ -139,7 +142,7 @@ fun UnitConverter() {
                         onClick = {
                             iExpanded = !iExpanded
                             inputUnit = "Millimeters"
-                            iConversionFactor.value = 0.001
+                            iConversionFactor.doubleValue = 0.001
                             conversionUnit()
                         }
                     )
@@ -159,7 +162,7 @@ fun UnitConverter() {
                         onClick = {
                             oExpanded = !iExpanded
                             outputUnit = "Centimeters"
-                            oConversionFactor.value = 0.01
+                            oConversionFactor.doubleValue = 0.01
                             conversionUnit()
                         }
 
@@ -169,7 +172,7 @@ fun UnitConverter() {
                         onClick = {
                             oExpanded = !iExpanded
                             outputUnit = "Meters"
-                            oConversionFactor.value = 1.00
+                            oConversionFactor.doubleValue = 1.00
                             conversionUnit()
                         }
                     )
@@ -178,7 +181,7 @@ fun UnitConverter() {
                         onClick = {
                             oExpanded = !iExpanded
                             outputUnit = "Feet"
-                            oConversionFactor.value = 0.3048
+                            oConversionFactor.doubleValue = 0.3048
                             conversionUnit()
                         }
                     )
@@ -187,7 +190,7 @@ fun UnitConverter() {
                         onClick = {
                             oExpanded = !iExpanded
                             outputUnit = "Millimeters"
-                            oConversionFactor.value = 0.001
+                            oConversionFactor.doubleValue = 0.001
                             conversionUnit()
                         }
                     )
@@ -196,7 +199,7 @@ fun UnitConverter() {
 
         }
         Spacer(modifier = Modifier.height(16.dp))
-        //resutl text
+        //result text
         Text(
             text = "Results: $inputValue $inputUnit = $outputValue $outputUnit",
             style = MaterialTheme.typography.headlineMedium
