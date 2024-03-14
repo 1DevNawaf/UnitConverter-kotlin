@@ -11,9 +11,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -80,12 +83,16 @@ fun UnitConverter() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-
-        Text("Unit converter", modifier = Modifier.padding(50.dp))
+        Icon(Icons.Default.Create, contentDescription = "Create",Modifier.size(width = 64.dp, height = 64.dp))
+        Spacer(modifier = Modifier.height(32.dp))
+        Text("Unit converter", style = MaterialTheme.typography.headlineLarge)
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
             value = inputValue,
-            onValueChange = { inputValue = it },
+            onValueChange = {
+                inputValue = it
+                conversionUnit()
+            },
             label = { Text(text = "Enter value here", textAlign = TextAlign.Center) }
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -189,7 +196,11 @@ fun UnitConverter() {
 
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "Results: $outputValue")
+        //resutl text
+        Text(
+            text = "Results: $inputValue $inputUnit = $outputValue $outputUnit",
+            style = MaterialTheme.typography.headlineMedium
+        )
     }
 }
 
